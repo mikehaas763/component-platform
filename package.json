@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "component-platform",
+  "version": "1.0.0",
+  "devDependencies": {
+    "angular2": "^2.0.0-alpha.37",
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-typescript": "^2.9.0"
+  }
+}
