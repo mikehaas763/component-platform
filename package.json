@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "angular2": "^2.0.0-alpha.37",
+    "browser-sync": "^2.9.6",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-filter": "^3.0.1",

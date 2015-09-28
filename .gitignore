@@ -1,6 +1,7 @@
 ### Project specific
 typings
 .nvmrc
+.npmrc
 
 ### Node template
 # Logs
