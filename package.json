@@ -5,9 +5,10 @@
   "devDependencies": {
     "angular2": "^2.0.0-alpha.37",
     "del": "^2.0.2",
-    "es6-module-loader": "^0.17.8",
     "gulp": "^3.9.0",
+    "gulp-filter": "^3.0.1",
     "gulp-typescript": "^2.9.0",
+    "systemjs": "^0.19.3",
     "traceur": "0.0.91"
   }
 }
