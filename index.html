@@ -7,10 +7,10 @@
     <script src="node_modules/systemjs/dist/system.js"></script>
     <script src="node_modules/angular2/bundles/angular2.js"></script>
     <script>
-        System.config({
-            map: {}
-        });
-        System.import('./out/ComponentDashboard/App.js');
+        System.import('loaderConfig.js')
+            .then(function() {
+                return System.import('./out/ComponentDashboard/App.js');
+            });
     </script>
 </head>
 <body>

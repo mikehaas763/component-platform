@@ -13,5 +13,3 @@ export default class App {
 }
 
 bootstrap(App);
-
-console.log('executed');
