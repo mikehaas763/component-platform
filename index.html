@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="node_modules/traceur/bin/traceur-runtime.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.js"></script>
+    <script>
+        System.config({
+            map: {}
+        });
+        System.import('./out/ComponentDashboard/App.js');
+    </script>
+</head>
+<body>
+<my-app></my-app>
+</body>
+</html>
