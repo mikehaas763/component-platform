@@ -1,3 +1,6 @@
 System.config({
-    map: {}
+    //packages defines our app package
+    packages: {
+        "./out/ComponentDashboard": {}
+    }
 });

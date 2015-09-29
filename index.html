@@ -6,11 +6,9 @@
     <script src="node_modules/traceur/bin/traceur-runtime.js"></script>
     <script src="node_modules/systemjs/dist/system.js"></script>
     <script src="node_modules/angular2/bundles/angular2.js"></script>
+    <script src="loaderConfig.js"></script>
     <script>
-        System.import('loaderConfig.js')
-            .then(function() {
-                return System.import('./out/ComponentDashboard/App.js');
-            });
+        System.import('./out/ComponentDashboard/App');
     </script>
 </head>
 <body>
