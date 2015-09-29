@@ -6,14 +6,31 @@ var browserSync = require('browser-sync').create();
 
 var config = {
     buildOutput: 'out',
-    sourceTree: ['ComponentDashboard/**/*' /**, 'index.html'**/]
+    sourceTree: ['ComponentDashboard/**/*' /**, 'index.html'**/],
+    browserSyncConfig: {
+        server: {
+            baseDir: './'
+        }
+    },
+    // probably move this to tsconfig.json
+    typescriptConfig: {
+        module: 'system',
+        emitDecoratorMetadata: true,
+        experimentalDecorators: true,
+        target: 'ES5'
+    }
 };
 
 var TaskName = {
     Default: 'default',
     Build: 'build',
     Clean: 'clean',
-    Serve: 'serve'
+    Serve: 'serve',
+    PrivateBuildReload: '~build-reload'
+};
+
+var GulpEvent = {
+    Change: 'change'
 };
 
 gulp.task(TaskName.Default, [TaskName.Build]);
@@ -26,17 +43,24 @@ gulp.task(TaskName.Clean, () => {
 gulp.task(TaskName.Serve, [TaskName.Build], () => {
     return serveFactory(config, gulp);
 });
-gulp.task('build-reload', [TaskName.Build], browserSync.reload);
+gulp.task(TaskName.PrivateBuildReload, [TaskName.Build], () => {
+    browserSync.reload();
+});
 
+
+
+
+
+
+
+//////
 ////// define in other file(s) and require()
+//////
 function serveFactory(config, gulp) {
-    browserSync.init({
-        server: {
-            baseDir: "./"
-        }
-    });
+    browserSync.init(config.browserSyncConfig);
 
-    gulp.watch(config.sourceTree, ['build-reload']).on('change', browserSync.reload);
+    gulp.watch(config.sourceTree, [TaskName.PrivateBuildReload])
+        .on(GulpEvent.Change, browserSync.reload);
 }
 
 function buildFactory(config, gulp) {
@@ -45,12 +69,7 @@ function buildFactory(config, gulp) {
 
         return gulp.src(config.sourceTree, {base: './'})
             .pipe(tsFilter)
-            .pipe(gulpTypeScript({
-                module: 'system',
-                emitDecoratorMetadata: true,
-                "experimentalDecorators": true,
-                target: 'ES5'
-            }))
+            .pipe(gulpTypeScript(config.typescriptConfig))
             .pipe(tsFilter.restore)
             .pipe(gulp.dest(config.buildOutput));
     };
@@ -58,6 +77,6 @@ function buildFactory(config, gulp) {
 
 function cleanFactory(config) {
     return () => {
-        return del('out');
+        return del(config.buildOutput);
     };
 }
