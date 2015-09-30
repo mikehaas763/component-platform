@@ -5,7 +5,8 @@ var gulpFilter = require('gulp-filter');
 var browserSync = require('browser-sync').create();
 
 var config = {
-    buildOutput: 'out',
+    buildOutputLocation: 'out',
+    nodeModulesLocation: 'node_modules',
     sourceTree: ['ComponentDashboard/**/*' /**, 'index.html'**/],
     browserSyncConfig: {
         server: {
@@ -33,7 +34,7 @@ var GulpEvent = {
     Change: 'change'
 };
 
-gulp.task(TaskName.Default, [TaskName.Build]);
+gulp.task(TaskName.Default, [TaskName.Serve]);
 gulp.task(TaskName.Build, [TaskName.Clean], () => {
     return buildFactory(config, gulp)();
 });
@@ -57,9 +58,16 @@ gulp.task(TaskName.PrivateBuildReload, [TaskName.Build], () => {
 ////// define in other file(s) and require()
 //////
 function serveFactory(config, gulp) {
-    browserSync.init(config.browserSyncConfig);
+    // watching (almost) everything at root is a pretty arbitrary decision. Making it completely configurable is kind of
+    // weird also. Maybe a default configuration that is overridable?
+    var watchPaths = [
+        '**/*',
+        `!${config.nodeModulesLocation}/**/*`,
+        `!${config.buildOutputLocation}/**/*`
+    ];
 
-    gulp.watch(config.sourceTree, [TaskName.PrivateBuildReload])
+    browserSync.init(config.browserSyncConfig);
+    gulp.watch(watchPaths, [TaskName.PrivateBuildReload])
         .on(GulpEvent.Change, browserSync.reload);
 }
 
@@ -71,12 +79,12 @@ function buildFactory(config, gulp) {
             .pipe(tsFilter)
             .pipe(gulpTypeScript(config.typescriptConfig))
             .pipe(tsFilter.restore)
-            .pipe(gulp.dest(config.buildOutput));
+            .pipe(gulp.dest(config.buildOutputLocation));
     };
 }
 
 function cleanFactory(config) {
     return () => {
-        return del(config.buildOutput);
+        return del(config.buildOutputLocation);
     };
 }
