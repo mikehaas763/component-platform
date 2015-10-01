@@ -7,18 +7,12 @@ var browserSync = require('browser-sync').create();
 var config = {
     buildOutputLocation: 'out',
     nodeModulesLocation: 'node_modules',
+    "tsconfigLocation": "tsconfig.json",
     sourceTree: ['ComponentDashboard/**/*' /**, 'index.html'**/],
     browserSyncConfig: {
         server: {
             baseDir: './'
         }
-    },
-    // probably move this to tsconfig.json
-    typescriptConfig: {
-        module: 'system',
-        emitDecoratorMetadata: true,
-        experimentalDecorators: true,
-        target: 'ES5'
     }
 };
 
@@ -73,11 +67,12 @@ function serveFactory(config, gulp) {
 
 function buildFactory(config, gulp) {
     return () => {
+        var tsProject = gulpTypeScript.createProject(config.tsconfigLocation);
         var tsFilter = gulpFilter(['**/*.ts'], {restore: true});
 
         return gulp.src(config.sourceTree, {base: './'})
             .pipe(tsFilter)
-            .pipe(gulpTypeScript(config.typescriptConfig))
+            .pipe(gulpTypeScript(tsProject))
             .pipe(tsFilter.restore)
             .pipe(gulp.dest(config.buildOutputLocation));
     };
