@@ -11,5 +11,12 @@
     "gulp-typescript": "^2.9.0",
     "systemjs": "^0.19.3",
     "traceur": "0.0.91"
+  },
+  "scripts": {
+    "serve": "gulp serve",
+    "build": "gulp build"
+  },
+  "engines": {
+    "node": ">=4.1"
   }
 }
