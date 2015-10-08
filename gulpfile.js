@@ -8,7 +8,7 @@ var config = {
     buildOutputLocation: 'out',
     nodeModulesLocation: 'node_modules',
     "tsconfigLocation": "tsconfig.json",
-    sourceTree: ['ComponentDashboard/**/*' /**, 'index.html'**/],
+    sourceTree: ['typings/**/*.d.ts', 'ComponentDashboard/**/*' /**, 'index.html'**/],
     browserSyncConfig: {
         server: {
             baseDir: './'
@@ -68,7 +68,8 @@ function serveFactory(config, gulp) {
 function buildFactory(config, gulp) {
     return () => {
         var tsProject = gulpTypeScript.createProject(config.tsconfigLocation);
-        var tsFilter = gulpFilter(['**/*.ts'], {restore: true});
+        // todo: this should be cleaned up also config.sourceTree
+        var tsFilter = gulpFilter(['**/*.ts', '**/*.d.ts'], {restore: true});
 
         return gulp.src(config.sourceTree, {base: './'})
             .pipe(tsFilter)
